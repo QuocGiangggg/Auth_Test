@@ -4,8 +4,13 @@ import {
     HttpStatus,
     Post,
     Body,
+    Request,
+    Get,
+    UseGuards,
     } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { AuthService } from './auth.service' // Adjust the import path as necessary
+import { AuthGuard } from 'src/guards/auth.guard';
+import { request } from 'http';     
 
 @Controller('auth')
 export class AuthController {
@@ -20,4 +25,9 @@ export class AuthController {
     login(@Body() input: { username: string; password: string }) {
         return this.authService.authenticate(input);
       }
+    
+    @Get('me')
+    getUserInfo(@Request() request){
+        return request.user; // Assuming the user information is stored in the request object by the AuthGuard
+    }
 }

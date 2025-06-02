@@ -11,6 +11,7 @@ import {
     } from '@nestjs/common';
 import { AuthService } from './auth.service'; // Adjust the import path as necessary
 import { PassportLocalGuard } from 'src/guards/passport-local.guard';
+import { PassportJwtAuthGuard } from 'src/guards/passport-jwt.guard';
 
 @Controller('auth-v2')
 export class PassportAuthController {
@@ -27,7 +28,7 @@ export class PassportAuthController {
         return this.authService.signIn(request.user); // Assuming the user information is stored in the request object by the PassportLocalGuard
     }
     @Get('me')
-    @UseGuards(PassportLocalGuard)
+    @UseGuards(PassportJwtAuthGuard)
     getUserInfo(@Request() request) {
         return request.user;
     }
